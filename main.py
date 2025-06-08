@@ -59,7 +59,7 @@ async def chat_eval_endpoint(request: ChatRequest):
 async def recommend_endpoint(request: RecommendRequest):
     try:
         chat='\n'.join(l[0]+': '+l[1] for l in request.chat)
-        question = '상품 설명: ' + request.chatTitle + '('+request.status+') - ' + request.price + '\n' + request.chatContent + "\n의 상태를 더 자세히 확인하기 위한 질문을 만들고 싶다. 채팅 내역: " + chat + "또한 고려해서 질문들을 생성해라 \n 답변은  ## 확인사항 , ## 질문 형식으로 중고 거래에서 사용할 공손한 말투로 생성하시오(예시: ## 게임기 모델 확인 \n ## 플레이스테이션 5 모델이 어떻게 되나요?) 숫자나 기호를 매기지 말고 확인사항과 질문만 출력해라 "
+        question = '상품 설명: ' + request.chatTitle + '('+request.status+') - ' + request.price + '\n' + request.chatContent + "\n의 상태를 더 자세히 확인하기 위한 질문을 만들고 싶다.\n 채팅 내역: " + chat + "또한 고려해서 질문들을 생성해라 \n\n 답변은  예시: ## 게임기 모델 확인 \n ## 플레이스테이션 5 모델이 어떻게 되나요?와 같이 출력해야 한다. 중고 거래에서 사용할 공손한 말투로 생성하시오. 숫자나 기호를 매기지 말고 확인사항과 질문만 출력해라 "
         kakas_agent = get_rec_llm()  # agent 객체 생성
         start = time.time()
         response = kakas_agent.invoke(question).content
