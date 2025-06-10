@@ -66,14 +66,14 @@ async def recommend_endpoint(request: RecommendRequest):
         end = time.time()
         latency = end - start
         lines = [line.strip() for line in response.strip().splitlines() if line.strip()]
-        response_dict = {}
+        response_list = []
 
         for i in range(0, len(lines), 2):
             if i + 1 < len(lines):
                 heading = lines[i].replace("##", "").strip()
                 question = lines[i + 1].replace("##", "").strip()
-                response_dict[heading] = question
-        return {"response": response_dict, 'latency' : latency}
+                response_list.append(heading+':'+question)
+        return {"response": response_list, 'latency' : latency}
         
     except Exception as e:
         return {"error": str(e)}
