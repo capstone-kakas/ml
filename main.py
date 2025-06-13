@@ -12,7 +12,7 @@ app = FastAPI(docs_url="/api-docs", openapi_url="/open-api-docs")
 
 @app.post("/chat")
 async def chat_endpoint(request: ChatRequest):
-    try:
+    # try:
         kakas_agent = make_agent()  # agent 객체 생성
         inputs = {"question": request.question}
         
@@ -28,8 +28,8 @@ async def chat_endpoint(request: ChatRequest):
         latency = end - start
         return {"response": response, 'latency' : latency}
 
-    except Exception as e:
-        return {"error": str(e)}
+    # except Exception as e:
+    #     return {"error": str(e)}
     
 
 @app.post("/chat-seller")

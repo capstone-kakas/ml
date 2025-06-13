@@ -12,7 +12,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langgraph.prebuilt import create_react_agent
 from IPython.display import Image, display
 from langchain_core.messages import HumanMessage
-
+from src.tools import *
 
 # 메인 그래프 상태 정의
 class ResearchAgentState(TypedDict):
@@ -164,28 +164,23 @@ def llm_fallback(state: ResearchAgentState) -> ResearchAgentState:
     return {"final_answer": generation, "question":question}
 evaluation_prompt = dedent("""
 당신은 AI 어시스턴트가 생성한 답변을 평가하는 전문가입니다. 주어진 질문과 답변을 평가하고, 60점 만점으로 점수를 매기세요. 다음 기준을 사용하여 평가하십시오:
-
 1. 정확성 (10점)
 2. 관련성 (10점)
 3. 완전성 (10점)
 4. 인용 정확성 (10점)
 5. 명확성과 간결성 (10점)
 6. 객관성 (10점)
-
 평가 과정:
 1. 주어진 질문과 답변을 주의 깊게 읽으십시오.
 2. 필요한 경우, 다음 도구를 사용하여 추가 정보를 수집하세요:
 - verify_claim_with_web: 진위 여부 판단
 - get_product_reviews_and_history: 제품 리뷰 및 리콜 이력 검색
 - get_condition_guidelines: 제품 상태가 가격에 미치는 영향 검색색
-
 도구 사용 형식:
 Action: [tool_name]
 Action Input: [input for the tool]
-
 3. 각 기준에 대해 1-10점 사이의 점수를 매기세요.
 4. 총점을 계산하세요 (60점 만점).
-
 출력 형식:
 {
 "scores": {
@@ -199,7 +194,6 @@ Action Input: [input for the tool]
 "total_score": 0,
 "brief_evaluation": "간단한 평가 설명"
 }
-
 최종 출력에는 각 기준의 점수, 총점, 그리고 간단한 평가 설명만 포함하세요.
 """)
 

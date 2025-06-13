@@ -26,3 +26,4 @@ class RecommendRequest(BaseModel):
 
 class RecommendChatRequest(BaseModel):
     chat: List[str]
+    productName: str
